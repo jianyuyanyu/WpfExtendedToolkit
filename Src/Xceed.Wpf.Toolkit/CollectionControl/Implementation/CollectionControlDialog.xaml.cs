@@ -199,15 +199,9 @@ namespace Xceed.Wpf.Toolkit
       object result = null;
       var sourceType = source.GetType();
 
-      if( source is Array )
+      if( source is Array array)
       {
-        using( var stream = new MemoryStream() )
-        {
-          var formatter = new BinaryFormatter();
-          formatter.Serialize( stream, source );
-          stream.Seek( 0, SeekOrigin.Begin );
-          result = ( Array )formatter.Deserialize( stream );
-        }
+        result = array.Clone();
       }
       // For IDictionary, we need to create EditableKeyValuePair to edit the Key-Value.
       else if( ( this.ItemsSource is IDictionary )
