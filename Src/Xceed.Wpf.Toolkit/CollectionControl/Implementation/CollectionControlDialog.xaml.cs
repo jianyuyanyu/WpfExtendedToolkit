@@ -210,6 +210,8 @@ namespace Xceed.Wpf.Toolkit
       {
         result = this.GenerateEditableKeyValuePair( source );
       }
+      else if (sourceType == typeof(string))
+      { result = source; }
       else
       {
         // Initialized a new object with default values
@@ -232,7 +234,7 @@ namespace Xceed.Wpf.Toolkit
         }
       }
       Debug.Assert( result != null );
-      if( result != null )
+      if( result != null && !(result is string))
       {
         var properties = sourceType.GetProperties();
 
