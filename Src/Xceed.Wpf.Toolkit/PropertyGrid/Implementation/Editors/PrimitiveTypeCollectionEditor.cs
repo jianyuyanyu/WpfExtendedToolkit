@@ -14,6 +14,8 @@
 
   ***********************************************************************************/
 
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace Xceed.Wpf.Toolkit.PropertyGrid.Editors
@@ -41,7 +43,12 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid.Editors
       var type = propertyItem.PropertyType;
       Editor.ItemsSourceType = type;
 
-      if( type.BaseType == typeof( System.Array ) )
+      var icollection = propertyItem.PropertyType.GetInterfaces().FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICollection<>));
+      if (icollection != null)
+      {
+        Editor.ItemType = icollection.GetGenericArguments()[0];
+      }
+      else if ( type.BaseType == typeof( System.Array ) )
       {
         Editor.ItemType = type.GetElementType();
       }
